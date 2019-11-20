@@ -3,6 +3,7 @@ const bodyparser = require('body-parser');
 const mocha = require('mocha');
 const app = express();
 
+// http://149.28.21.133:6974
 
 app.get('/', (req, res) => {
   res.send('Hello World!\n');
@@ -43,30 +44,30 @@ app.get('/users/:id', (req, res) => {
 
 app.delete('/users/:id', (req, res) => {
 	const id = parseInt(req.params.id, 10);
-	if (!id) {
+	if (!id)
 		return res.status(400).json({error: 'Incorrect id'});
 	const userIdx = users.findIndex(user => user.id === id);
 	if (userIdx === -1){
-		console.log("?");
 		return res.status(404).json({error: 'Unknown user'});
 	}
 	users.splice(userIdx, 1);
 	console.log(users);
 	return res.status(204).send();
-  }
 });
 
+app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({ extended: true }));
 app.post('/users', (req, res) => {
-	const name_ = req.body.name || '';
-	if (!name_.length) {
+	const name = req.body.name || '';
+	if (!name.length) {
 		return res.status(400).json({error: 'Incorrenct name'});
 	}
-	const id_ = users.reduce((maxId, user) => {
+	const id = users.reduce((maxId, user) => {
 		return user.id > maxId ? user.id : maxId
 	}, 0) + 1;
 	const newUser = {
-		id: id_,
-		name: name_
+		id: id,
+		name: name
 	};
 	users.push(newUser);
 	return res.status(201).json(newUser);
