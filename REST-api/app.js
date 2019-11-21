@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyparser = require('body-parser');
 const mocha = require('mocha');
+const Sequelize = require('sequelize');
 const app = express();
 
 // http://149.28.21.133:6974
@@ -9,8 +10,20 @@ app.get('/', (req, res) => {
   res.send('Hello World!\n');
  });
 
+/*
 app.listen(6974, () => {
-  console.log('Example app listening on port 6974!');
+	const sequelize = new Sequelize('nodejs_api', 'root', '')
+	console.log('Example app listening on port 6974!');
+});
+*/
+
+app.listen(6974, () => {
+	console.log('Example app listening on port 6974!');
+  
+	require('./models').sequelize.sync({force: true})
+		.then(() => {
+		  console.log('Databases sync');
+		});
 });
 
 let users = [
