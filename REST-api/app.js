@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyparser = require('body-parser');
-const mocha = require('mocha');
-const Sequelize = require('sequelize');
+// const mocha = require('mocha');
+const models = require('./models.js');
 const app = express();
 
 // http://149.28.21.133:6974
